@@ -1,0 +1,115 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2-create-initial-tables
+      author: Daria_Pevets
+      changes:
+
+        - createTable:
+            tableName: clients
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_clients
+                    nullable: false
+              - column:
+                  name: full_name
+                  type: varchar(255)
+              - column:
+                  name: email
+                  type: varchar(255)
+              - column:
+                  name: phone
+                  type: varchar(50)
+              - column:
+                  name: trainings_left
+                  type: integer
+
+        - createTable:
+            tableName: rooms
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_rooms
+                    nullable: false
+              - column:
+                  name: training_type
+                  type: varchar(150)
+              - column:
+                  name: capacity
+                  type: integer
+                  constraints:
+                    nullable: false
+
+        - createTable:
+            tableName: trainings
+            columns:
+              - column:
+                  name: training_id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_trainings
+                    nullable: false
+              - column:
+                  name: training_type
+                  type: varchar(100)
+              - column:
+                  name: training_start
+                  type: timestamp without time zone
+              - column:
+                  name: trainer_name
+                  type: varchar(255)
+              - column:
+                  name: room_id
+                  type: bigint
+              - column:
+                  name: booked_count
+                  type: integer
+                  constraints:
+                    nullable: false
+
+        - createTable:
+            tableName: bookings
+            columns:
+              - column:
+                  name: booking_id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: pk_bookings
+                    nullable: false
+              - column:
+                  name: client_id
+                  type: bigint
+              - column:
+                  name: training_training_id
+                  type: bigint
+              - column:
+                  name: booked_at
+                  type: timestamp without time zone
+
+        - addForeignKeyConstraint:
+            baseTableName: bookings
+            baseColumnNames: client_id
+            referencedTableName: clients
+            referencedColumnNames: id
+            constraintName: fk_bookings_client
+            onDelete: CASCADE
+
+        - addForeignKeyConstraint:
+            baseTableName: bookings
+            baseColumnNames: training_training_id
+            referencedTableName: trainings
+            referencedColumnNames: training_id
+            constraintName: fk_bookings_training
+            onDelete: CASCADE

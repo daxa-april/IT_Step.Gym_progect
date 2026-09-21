@@ -1,0 +1,74 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3-insert-test-data
+      author: Dari_Pevets
+      changes:
+        # 1. Добавляем тестовые залы (Rooms)
+        - insert:
+            tableName: rooms
+            columns:
+              - column: { name: id, valueNumeric: "1" }
+              - column: { name: training_type, value: "YOGA" }
+              - column: { name: capacity, valueNumeric: "15" }
+        - insert:
+            tableName: rooms
+            columns:
+              - column: { name: id, valueNumeric: "2" }
+              - column: { name: training_type, value: "CROSSFIT" }
+              - column: { name: capacity, valueNumeric: "10" }
+
+        # 2. Добавляем клиентов (Clients)
+        - insert:
+            tableName: clients
+            columns:
+              - column: { name: id, valueNumeric: "1" }
+              - column: { name: full_name, value: "Иван Иванов" }
+              - column: { name: email, value: "ivan@email.com" }
+              - column: { name: phone, value: "+375291112233" }
+              - column: { name: trainings_left, valueNumeric: "10" }
+        - insert:
+            tableName: clients
+            columns:
+              - column: { name: id, valueNumeric: "2" }
+              - column: { name: full_name, value: "Мария Петрова" }
+              - column: { name: email, value: "maria@email.com" }
+              - column: { name: phone, value: "+375294445566" }
+              - column: { name: trainings_left, valueNumeric: "0" }
+
+        # 3. Добавляем тренировки (Trainings)
+        - insert:
+            tableName: trainings
+            columns:
+              - column: { name: training_id, valueNumeric: "101" }
+              - column: { name: training_type, value: "YOGA" }
+              - column: { name: training_start, valueDate: "2026-10-20T10:00:00" }
+              - column: { name: trainer_name, value: "Алена Сидорова" }
+              - column: { name: room_id, valueNumeric: "1" }
+              - column: { name: booked_count, valueNumeric: "1" }
+        - insert:
+            tableName: trainings
+            columns:
+              - column: { name: training_id, valueNumeric: "102" }
+              - column: { name: training_type, value: "CROSSFIT" }
+              - column: { name: training_start, valueDate: "2026-10-21T18:30:00" }
+              - column: { name: trainer_name, value: "Игорь Петров" }
+              - column: { name: room_id, valueNumeric: "2" }
+              - column: { name: booked_count, valueNumeric: "0" }
+
+        - insert:
+            tableName: bookings
+            columns:
+              - column: { name: booking_id, valueNumeric: "501" }
+              - column: { name: client_id, valueNumeric: "1" }
+              - column: { name: training_training_id, valueNumeric: "101" }
+              - column: { name: booked_at, valueDate: "2026-09-21T01:30:00" }
+
+
+        - sql:
+            sql: "SELECT setval(pg_get_serial_sequence('trainings', 'training_id'), coalesce(max(training_id), 1)) FROM trainings;"
+        - sql:
+            sql: "SELECT setval(pg_get_serial_sequence('clients', 'id'), coalesce(max(id), 1)) FROM clients;"
+        - sql:
+            sql: "SELECT setval(pg_get_serial_sequence('rooms', 'id'), coalesce(max(id), 1)) FROM rooms;"
+        - sql:
+            sql: "SELECT setval(pg_get_serial_sequence('bookings', 'booking_id'), coalesce(max(booking_id), 1)) FROM bookings;"
