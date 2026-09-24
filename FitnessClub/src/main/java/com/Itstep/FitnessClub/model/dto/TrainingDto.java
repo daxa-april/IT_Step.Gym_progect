@@ -1,6 +1,6 @@
 package com.Itstep.FitnessClub.model.dto;
 
-import com.Itstep.FitnessClub.data.TrainingType;
+import com.Itstep.FitnessClub.model.data.TrainingType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.time.LocalDateTime;

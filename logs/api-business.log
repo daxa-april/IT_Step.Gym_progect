@@ -1,0 +1,20 @@
+2026-09-24 09:23:38 [INFO ] - Starting FitnessClubApplication using Java 17.0.2 with PID 19172 (D:\java\projects\FitnessClub\FitnessClub\target\classes started by Asus in D:\java\projects\FitnessClub)
+2026-09-24 09:23:38 [INFO ] - No active profile set, falling back to 1 default profile: "default"
+2026-09-24 09:23:41 [INFO ] - Started FitnessClubApplication in 3.468 seconds (process running for 3.948)
+2026-09-24 09:26:46 [INFO ] - --> [Сервис] Вызов метода: TrainingServiceImpl.changeSchedule() | Аргументов: 2
+2026-09-24 09:26:46 [INFO ] - <-- [Сервис] Успешно завершен: TrainingServiceImpl.changeSchedule() | Возвращено: TrainingDto
+2026-09-24 10:31:05 [INFO ] - Starting FitnessClubApplication using Java 17.0.2 with PID 5656 (D:\java\projects\FitnessClub\FitnessClub\target\classes started by Asus in D:\java\projects\FitnessClub)
+2026-09-24 10:31:05 [INFO ] - No active profile set, falling back to 1 default profile: "default"
+2026-09-24 10:31:08 [INFO ] - Started FitnessClubApplication in 3.206 seconds (process running for 3.598)
+2026-09-24 10:31:54 [INFO ] - --> [Сервис] Вызов метода: ScheduleServiceImpl.getSchedule() | Аргументов: 0
+2026-09-24 10:31:54 [INFO ] - <-- [Сервис] Успешно завершен: ScheduleServiceImpl.getSchedule() | Возвращено: ListN
+2026-09-24 10:32:23 [INFO ] - --> [Сервис] Вызов метода: ScheduleServiceImpl.getScheduleByTrainingName() | Аргументов: 1
+2026-09-24 10:32:23 [INFO ] - <-- [Сервис] Успешно завершен: ScheduleServiceImpl.getScheduleByTrainingName() | Возвращено: ListN
+2026-09-24 10:33:04 [INFO ] - --> [Сервис] Вызов метода: ScheduleServiceImpl.getScheduleByRange() | Аргументов: 2
+2026-09-24 10:33:04 [INFO ] - <-- [Сервис] Успешно завершен: ScheduleServiceImpl.getScheduleByRange() | Возвращено: ListN
+2026-09-24 10:33:26 [INFO ] - --> [Сервис] Вызов метода: ScheduleServiceImpl.getWeekSchedule() | Аргументов: 1
+2026-09-24 10:33:26 [INFO ] - <-- [Сервис] Успешно завершен: ScheduleServiceImpl.getWeekSchedule() | Возвращено: ListN
+2026-09-24 10:33:47 [INFO ] - --> [Сервис] Вызов метода: SubscriptionServiceImpl.getSubscriptionByClientId() | Аргументов: 1
+2026-09-24 10:33:47 [INFO ] - <-- [Сервис] Успешно завершен: SubscriptionServiceImpl.getSubscriptionByClientId() | Возвращено: SubscriptionDto
+2026-09-24 10:34:37 [INFO ] - --> [Сервис] Вызов метода: ClientServiceImpl.getClientById() | Аргументов: 1
+2026-09-24 10:34:37 [INFO ] - <-- [Сервис] Успешно завершен: ClientServiceImpl.getClientById() | Возвращено: ClientDto

@@ -1,6 +1,6 @@
 package com.Itstep.FitnessClub.model.entity;
 
-import com.Itstep.FitnessClub.data.TrainingType;
+import com.Itstep.FitnessClub.model.data.TrainingType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Training {
 
-    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long trainingId;
@@ -29,6 +28,5 @@ public class Training {
     private String trainerName;
     private Long roomId;
 
-    @Column(name = "booked_count")
     private int bookedCount;
 }

@@ -1,10 +1,10 @@
-package com.Itstep.FitnessClub.service.Impl;
+package com.Itstep.FitnessClub.service.impl;
 
+import com.Itstep.FitnessClub.exception.ResourceNotFoundException;
+import com.Itstep.FitnessClub.mapper.ClientMapper;
 import com.Itstep.FitnessClub.model.dto.ClientDto;
 import com.Itstep.FitnessClub.model.dto.ClientInnerDto;
 import com.Itstep.FitnessClub.model.entity.Client;
-import com.Itstep.FitnessClub.exception.ResourceNotFoundException;
-import com.Itstep.FitnessClub.mapper.ClientMapper;
 import com.Itstep.FitnessClub.repository.ClientRepository;
 import com.Itstep.FitnessClub.service.ClientService;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +41,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public ClientDto getClientById(Long clientId) {
-        if (clientRepository.findById(clientId).isPresent()) {
+        if (clientRepository.existsById(clientId)) {
             return clientMapper.clientToClientDto(clientRepository.findById(clientId).get());
         } else {
             throw new ResourceNotFoundException("Client with id " + clientId + " not found");
@@ -51,9 +51,8 @@ public class ClientServiceImpl implements ClientService {
     @Transactional
     @Override
     public ClientDto changeClient(Long clientId, ClientDto client) {
-        if (clientRepository.findById(clientId).isPresent()) {
+        if (clientRepository.existsById(clientId)) {
             Client clientToChange = clientRepository.findById(clientId).get();
-            clientToChange.setId(clientId);
             clientToChange.setFullName(client.fullName());
             clientToChange.setEmail(client.email());
             clientToChange.setPhone(client.phone());
@@ -66,11 +65,19 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public ClientInnerDto findByFullName(String fullName) {
-        return clientMapper.clientToClientInnerDto(clientRepository.findByFullName(fullName));
+        if (clientRepository.findByFullName(fullName) != null) {
+            return clientMapper.clientToClientInnerDto(clientRepository.findByFullName(fullName));
+        } else {
+            throw new ResourceNotFoundException("Client not found");
+        }
     }
 
     @Override
     public ClientInnerDto findByPhone(String number) {
-        return clientMapper.clientToClientInnerDto(clientRepository.findByPhone(number));
+        if (clientRepository.findByPhone(number) != null) {
+            return clientMapper.clientToClientInnerDto(clientRepository.findByPhone(number));
+        } else {
+            throw new ResourceNotFoundException("Client not found");
+        }
     }
 }

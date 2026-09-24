@@ -1,6 +1,6 @@
 package com.Itstep.FitnessClub.controller;
 
-import com.Itstep.FitnessClub.data.TrainingType;
+import com.Itstep.FitnessClub.model.data.TrainingType;
 import com.Itstep.FitnessClub.model.dto.TrainingDto;
 import com.Itstep.FitnessClub.service.ScheduleService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,32 +14,31 @@ import java.util.List;
 
 /*
  * Отправка запросов на вывод расписания.
- *
  */
 
 @RestController
-@RequestMapping("/api/schedules")
+@RequestMapping("/schedules")
 @RequiredArgsConstructor
-@Tag(name = "Внутренний сервис расписания", description = "вывод и сортировка расписания")
+@Tag(name = "Расписание", description = "вывод и сортировка расписания тренировок")
 public class ScheduleController {
 
     private final ScheduleService scheduleService;
 
     @Operation(summary = "Без фильтров")
-    @GetMapping("/api/schedule")
+    @GetMapping
     public List<TrainingDto> getFullTrainingSchedule() {
         return scheduleService.getSchedule();
     }
 
-    @Operation(summary = "По дате")
-    @GetMapping("/schedule/byDate")
-    public List<TrainingDto> getScheduleByDate(
+    @Operation(summary = "На неделю")
+    @GetMapping("/byDate")
+    public List<TrainingDto> getWeekSchedule(
             @RequestParam("day") @DateTimeFormat(pattern = "dd.MM.yyyy") LocalDate date) {
-        return scheduleService.getScheduleByDate(date.atStartOfDay());
+        return scheduleService.getWeekSchedule(date.atStartOfDay());
     }
 
     @Operation(summary = "По диапазону дат")
-    @GetMapping("/schedule/byDateRange")
+    @GetMapping("/byDateRange")
     public List<TrainingDto> getScheduleByDateRange(
             @RequestParam @DateTimeFormat(pattern = "dd.MM.yyyy") LocalDate from,
             @RequestParam @DateTimeFormat(pattern = "dd.MM.yyyy") LocalDate to) {
@@ -50,7 +49,7 @@ public class ScheduleController {
     }
 
     @Operation(summary = "По виду тренировок")
-    @GetMapping("/trainingName/{trainingName}")
+    @GetMapping("/{trainingName}")
     public List<TrainingDto> getScheduleByTrainingName(@PathVariable TrainingType trainingName) {
         return scheduleService.getScheduleByTrainingName(trainingName);
     }

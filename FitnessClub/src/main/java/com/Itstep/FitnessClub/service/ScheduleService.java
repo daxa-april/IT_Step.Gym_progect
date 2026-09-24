@@ -1,6 +1,6 @@
 package com.Itstep.FitnessClub.service;
 
-import com.Itstep.FitnessClub.data.TrainingType;
+import com.Itstep.FitnessClub.model.data.TrainingType;
 import com.Itstep.FitnessClub.model.dto.TrainingDto;
 
 import java.time.LocalDateTime;
@@ -12,7 +12,7 @@ import java.util.List;
 public interface ScheduleService {
     List<TrainingDto> getSchedule();
 
-    List<TrainingDto> getScheduleByDate(LocalDateTime date);
+    List<TrainingDto> getWeekSchedule(LocalDateTime date);
 
     List<TrainingDto> getScheduleByRange(LocalDateTime start, LocalDateTime end);
 

@@ -1,4 +1,4 @@
-package com.Itstep.FitnessClub.data;
+package com.Itstep.FitnessClub.model.data;
 
 /**
  * @author Daria Pevets

@@ -19,4 +19,6 @@ public interface TrainingMapper {
 
     Room roomDtoToRoom(RoomDto roomDto);
 
+    RoomDto roomToRoomDto(Room room);
+
 }

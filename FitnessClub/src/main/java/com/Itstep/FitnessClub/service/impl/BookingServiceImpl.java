@@ -1,19 +1,20 @@
-package com.Itstep.FitnessClub.service.Impl;
+package com.Itstep.FitnessClub.service.impl;
 
-import com.Itstep.FitnessClub.model.dto.request.BookingRequestDto;
-import com.Itstep.FitnessClub.model.dto.response.BookingResponseDto;
-import com.Itstep.FitnessClub.model.entity.Booking;
-import com.Itstep.FitnessClub.model.entity.Client;
-import com.Itstep.FitnessClub.model.entity.Training;
 import com.Itstep.FitnessClub.exception.NoPlaceAvailableException;
 import com.Itstep.FitnessClub.exception.ResourceNotFoundException;
 import com.Itstep.FitnessClub.exception.SubscriptionExpiredException;
 import com.Itstep.FitnessClub.mapper.BookingMapperManual;
+import com.Itstep.FitnessClub.model.dto.request.BookingRequestDto;
+import com.Itstep.FitnessClub.model.dto.response.BookingResponseDto;
+import com.Itstep.FitnessClub.model.entity.Booking;
+import com.Itstep.FitnessClub.model.entity.Client;
+import com.Itstep.FitnessClub.model.entity.Room;
+import com.Itstep.FitnessClub.model.entity.Training;
 import com.Itstep.FitnessClub.repository.BookingRepository;
 import com.Itstep.FitnessClub.repository.ClientRepository;
 import com.Itstep.FitnessClub.repository.RoomRepository;
+import com.Itstep.FitnessClub.repository.TrainingRepository;
 import com.Itstep.FitnessClub.service.BookingService;
-import com.Itstep.FitnessClub.service.TrainingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,25 +26,26 @@ import java.time.LocalDateTime;
  */
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class BookingServiceImpl implements BookingService {
 
     private final BookingRepository bookingRepository;
-    private final TrainingService trainingService;
     private final ClientRepository clientRepository;
     private final BookingMapperManual bookingMapper;
+    private final TrainingRepository trainingRepository;
     private final RoomRepository roomRepository;
 
+    @Transactional
     @Override
     public BookingResponseDto bookTraining(BookingRequestDto bookingRequestDto) {
+
         Client client = clientRepository.findById(bookingRequestDto.clientId())
                 .orElseThrow(() -> new ResourceNotFoundException("Client not found"));
-
-        Training training = trainingService.findTrainingById(bookingRequestDto.workoutId());
 
         if (client.getTrainingsLeft() == null || !client.isActive()) {
             throw new SubscriptionExpiredException("Subscription not found or has already expired");
         }
+
+        Training training = trainingRepository.findWithLockByTrainingId(bookingRequestDto.workoutId());
 
         if (bookingRepository.existsByClientAndTraining(client, training)) {
             throw new NoPlaceAvailableException("Training has already been booked");
@@ -51,7 +53,10 @@ public class BookingServiceImpl implements BookingService {
 
         int bookedCount = training.getBookedCount();
 
-        if (bookedCount >= roomRepository.findById(training.getRoomId()).get().getCapacity()) {
+        Room room = roomRepository.findById(training.getRoomId())
+                .orElseThrow(() -> new ResourceNotFoundException("Room not found"));
+
+        if (bookedCount >= room.getCapacity()) {
             throw new NoPlaceAvailableException("No places available for training");
         }
 
